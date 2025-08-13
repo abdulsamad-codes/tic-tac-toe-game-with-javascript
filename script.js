@@ -59,6 +59,8 @@ const checkWinner = () => {
       ) {
         // console.log(`Winner is ${position1Value}`);
         showWinner(position1Value);
+      } else {
+        message.innerText = `Match is Drawn, No Winner `;
       }
     }
   }
