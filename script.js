@@ -35,10 +35,36 @@ boxes.forEach((box) => {
       turnX = true;
     }
     box.disabled = true;
+    if (!checkWinner()) {
+      checkDraw();
+    }
     checkWinner();
   });
 });
 
+const showDraw = () => {
+  message.innerText = "Match is drawn, No Winner";
+  messageContainer.classList.remove("hide");
+  disableBoxes();
+};
+
+const checkDraw = () => {
+  // Check if all boxes are filled
+  let allBoxesFilled = true;
+  for (let box of boxes) {
+    if (box.innerText === "") {
+      allBoxesFilled = false;
+      break;
+    }
+  }
+
+  // If all boxes are filled and there's no winner, it's a draw
+  if (allBoxesFilled && !checkWinner()) {
+    showDraw();
+    return true;
+  }
+  return false;
+};
 const checkWinner = () => {
   for (let pattern of winPatterns) {
     let position1Value = boxes[pattern[0]].innerText;
@@ -59,11 +85,11 @@ const checkWinner = () => {
       ) {
         // console.log(`Winner is ${position1Value}`);
         showWinner(position1Value);
-      } else {
-        message.innerText = `Match is Drawn, No Winner `;
+        return true;
       }
     }
   }
+  return false;
 };
 const showWinner = (winner) => {
   message.innerText = `Congratulations, Winner is ${winner}`;
